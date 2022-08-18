@@ -2,8 +2,16 @@ import React, { useContext } from 'react';
 import planetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { name, planets, filteredPlanets } = useContext(planetsContext);
-  const planetsArr = name.length > 0 ? filteredPlanets : planets;
+  const {
+    filterByName: { name },
+    planets,
+    filteredPlanets,
+    filterByNumericValues,
+  } = useContext(planetsContext);
+
+  const planetsArr = name.length > 0 || filterByNumericValues.length > 0
+    ? filteredPlanets
+    : planets;
 
   return (
     <table border="1">

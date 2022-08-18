@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import planetsContext from '../context/PlanetsContext';
 
 function NameFilter() {
-  const { name, setInput } = useContext(planetsContext);
+  const {
+    filterByName: { name },
+    setInput,
+  } = useContext(planetsContext);
 
   return (
     <label htmlFor="name-filter">
