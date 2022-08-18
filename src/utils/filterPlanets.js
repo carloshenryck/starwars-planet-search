@@ -21,7 +21,7 @@ const filterByOptions = (filterOptions, planets) => {
   return planets;
 };
 
-export const filterPlanets = (planets, name, filterOptions) => {
+const filterPlanets = (planets, name, filterOptions) => {
   if (name.length > 0) {
     planets = planets.filter((planet) => (
       planet.name.toLowerCase().includes(name.toLowerCase())
@@ -35,4 +35,4 @@ export const filterPlanets = (planets, name, filterOptions) => {
   return planets;
 };
 
-export const compareArr = (f, s) => JSON.stringify(f) === JSON.stringify(s);
+export default filterPlanets;

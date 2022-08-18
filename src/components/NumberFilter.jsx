@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
 import planetsContext from '../context/PlanetsContext';
+import options from '../utils/options';
 
 function NumberFilter() {
   const { filterByNumericValues, setFilterOption } = useContext(planetsContext);
   const [value, setValue] = useState('0');
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
+  const [filterOptions, setOptions] = useState(options);
 
   const newFilterOption = {
     column,
@@ -20,22 +22,38 @@ function NumberFilter() {
     if (name === 'comparison') setComparison(target.value);
   };
 
-  const handleFilterButton = ({ target }) => {
-    const parent = target.parentElement;
-    const options = parent.firstChild.childNodes;
+  const generateOptions = () => (
+    filterOptions.map((option) => (
+      <option key={ option } value={ option }>{option}</option>
+    ))
+  );
 
-    options.forEach((option) => {
-      const { value: filterName } = option;
-      if (filterName === column) {
-        option.remove();
-      }
-    });
+  const removeFromFilter = (filterName) => {
+    const newOptions = filterByNumericValues.filter((option) => (
+      option.column !== filterName
+    ));
+    setFilterOption(newOptions);
+  };
 
-    if (options.length > 0) {
-      const { value: filterName } = options[0];
-      setColumn(filterName);
-    }
+  const handleFilterButton = () => {
+    const newOptions = filterOptions.filter((option) => option !== column);
+    setOptions(newOptions);
+    setColumn(newOptions[0]);
     setFilterOption([...filterByNumericValues, newFilterOption]);
+  };
+
+  const handleDeleteButton = ({ target }) => {
+    const filterParent = target.parentElement;
+    const filterName = filterParent.getAttribute('name');
+    const newOptions = [...filterOptions, filterName];
+    setOptions(newOptions);
+    setColumn(filterName);
+    removeFromFilter(filterName);
+  };
+
+  const removeAllFilters = () => {
+    setOptions(options);
+    setFilterOption([]);
   };
 
   return (
@@ -46,11 +64,7 @@ function NumberFilter() {
         onChange={ handleChange }
         value={ column }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { generateOptions() }
       </select>
       <select
         name="comparison"
@@ -72,14 +86,22 @@ function NumberFilter() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ (e) => handleFilterButton(e) }
+        onClick={ handleFilterButton }
       >
-        Filtrar
+        Filter
+      </button>
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ removeAllFilters }
+      >
+        Remove all filters
       </button>
       {filterByNumericValues.map((filter) => (
-        <p key={ filter.column }>
-          {`${filter.column} ${filter.comparison} ${filter.value}`}
-        </p>
+        <div key={ filter.column } name={ filter.column } data-testid="filter">
+          <p>{`${filter.column} ${filter.comparison} ${filter.value}`}</p>
+          <button type="button" onClick={ handleDeleteButton }>delete</button>
+        </div>
       ))}
     </div>
   );

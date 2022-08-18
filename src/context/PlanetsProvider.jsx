@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
-import { filterPlanets, compareArr } from '../utils/filterPlanets';
+import filterPlanets from '../utils/filterPlanets';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
@@ -21,12 +21,7 @@ function PlanetsProvider({ children }) {
 
   useEffect(() => {
     const newFilteredPlanets = filterPlanets(planets, name, filterOptions);
-
-    if (!compareArr(newFilteredPlanets, planets)) {
-      setfilteredPlanets(newFilteredPlanets);
-    } else {
-      setfilteredPlanets([]);
-    }
+    setfilteredPlanets(newFilteredPlanets);
   }, [name, filterOptions]);
 
   const info = {
