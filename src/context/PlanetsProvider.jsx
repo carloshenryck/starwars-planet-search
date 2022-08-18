@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
+import { filterPlanets, compareArr } from '../utils/filterPlanets';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
@@ -18,37 +20,10 @@ function PlanetsProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    let nPlanets = planets;
+    const newFilteredPlanets = filterPlanets(planets, name, filterOptions);
 
-    if (name.length > 0) {
-      nPlanets = nPlanets.filter((planet) => (
-        planet.name.toLowerCase().includes(name.toLowerCase())
-      ));
-    }
-
-    if (filterOptions.length > 0) {
-      filterOptions.forEach((option) => {
-        switch (option.comparison) {
-        case 'maior que':
-          nPlanets = nPlanets.filter(
-            (planet) => (Number(planet[option.column]) > Number(option.value)),
-          );
-          break;
-        case 'menor que':
-          nPlanets = nPlanets.filter(
-            (planet) => (Number(planet[option.column]) < Number(option.value)),
-          );
-          break;
-        default:
-          nPlanets = nPlanets.filter(
-            (planet) => (Number(planet[option.column]) === Number(option.value)),
-          );
-        }
-      });
-    }
-
-    if (JSON.stringify(nPlanets) !== JSON.stringify(planets)) {
-      setfilteredPlanets(nPlanets);
+    if (!compareArr(newFilteredPlanets, planets)) {
+      setfilteredPlanets(newFilteredPlanets);
     } else {
       setfilteredPlanets([]);
     }

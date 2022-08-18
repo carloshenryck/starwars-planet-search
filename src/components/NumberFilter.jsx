@@ -20,8 +20,26 @@ function NumberFilter() {
     if (name === 'comparison') setComparison(target.value);
   };
 
+  const handleFilterButton = ({ target }) => {
+    const parent = target.parentElement;
+    const options = parent.firstChild.childNodes;
+
+    options.forEach((option) => {
+      const { value: filterName } = option;
+      if (filterName === column) {
+        option.remove();
+      }
+    });
+
+    if (options.length > 0) {
+      const { value: filterName } = options[0];
+      setColumn(filterName);
+    }
+    setFilterOption([...filterByNumericValues, newFilterOption]);
+  };
+
   return (
-    <>
+    <div className="numeric-filter">
       <select
         name="column"
         data-testid="column-filter"
@@ -54,11 +72,16 @@ function NumberFilter() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => setFilterOption([...filterByNumericValues, newFilterOption]) }
+        onClick={ (e) => handleFilterButton(e) }
       >
         Filtrar
       </button>
-    </>
+      {filterByNumericValues.map((filter) => (
+        <p key={ filter.column }>
+          {`${filter.column} ${filter.comparison} ${filter.value}`}
+        </p>
+      ))}
+    </div>
   );
 }
 
