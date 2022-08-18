@@ -5,6 +5,7 @@ import PlanetsContext from './PlanetsContext';
 import filterPlanets from '../utils/filterPlanets';
 
 function PlanetsProvider({ children }) {
+  console.log('renderizei o Provider');
   const [planets, setPlanets] = useState([]);
   const [name, setInput] = useState('');
   const [filterOptions, setFilterOption] = useState([]);

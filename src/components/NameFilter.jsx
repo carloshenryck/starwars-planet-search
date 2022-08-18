@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import planetsContext from '../context/PlanetsContext';
 
 function NameFilter() {
+  console.log('renderizei o NameFilter');
   const {
     filterByName: { name },
     setInput,

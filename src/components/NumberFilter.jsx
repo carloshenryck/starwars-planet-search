@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
 import planetsContext from '../context/PlanetsContext';
-import options from '../utils/options';
 
 function NumberFilter() {
+  console.log('renderizei o NumberFilter');
+  const options = ['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water'];
   const { filterByNumericValues, setFilterOption } = useContext(planetsContext);
   const [value, setValue] = useState('0');
   const [column, setColumn] = useState('population');

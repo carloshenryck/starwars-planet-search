@@ -7,6 +7,7 @@ import NumberFilter from './components/NumberFilter';
 import './App.css';
 
 function App() {
+  console.log('renderizei o App');
   return (
     <PlanetsProvider>
       <h1>Star Wars Project</h1>

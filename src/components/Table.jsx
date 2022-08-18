@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import planetsContext from '../context/PlanetsContext';
 
 function Table() {
+  console.log('renderizei o Table');
   const {
     filterByName: { name },
     planets,
