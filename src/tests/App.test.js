@@ -10,7 +10,7 @@ describe('verificar page App', () => {
     expect(nameInput).toBeInTheDocument();
   });
 
-  test('verificar input de pesquisa', () => {
+  test('verificar input de pesquisa', async () => {
     render(<App />);
     const nameInput = screen.getByLabelText(/Name/i);
     userEvent.type(nameInput, 'Tatooine');
